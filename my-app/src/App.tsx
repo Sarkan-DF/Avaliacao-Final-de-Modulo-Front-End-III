@@ -1,12 +1,13 @@
 import React from 'react';
-import './App.css';
-import AppRouter from './router/AppRouter';
+import GlobalStyled from './config/GlobalStyled';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (
-    <div className='App'>
-      <AppRouter />
-    </div>
+    <>
+      <GlobalStyled/>
+      <AppRoutes/>
+    </>
   );
 }
 
