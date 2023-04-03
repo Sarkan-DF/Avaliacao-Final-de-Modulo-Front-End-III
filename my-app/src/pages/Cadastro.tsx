@@ -7,10 +7,10 @@ const Cadastro: React.FC = () => {
   return (
     <>
       <Grid container>
-        <GridCenterStyled item xs={12}>
+        <GridCenterStyled height={'500px'} width={'500px'} item xs={12}>
           <Container>
             <PaperStyled elevation={10}>
-              <Grid item textAlign={'center'}>
+              <Grid item>
                 <Typography variant="h3">Cadastro</Typography>
                 <Divider />
               </Grid>

@@ -17,10 +17,10 @@ const Login: React.FC = () => {
   return (
     <>
       <Grid container>
-        <GridCenterStyled item xs={12}>
+        <GridCenterStyled height={'500px'} width={'500px'} item xs={12}>
           <Container>
             <PaperStyled elevation={10}>
-              <Grid item textAlign={'center'}>
+              <Grid item>
                 <Typography variant="h3">Login</Typography>
                 <Divider />
               </Grid>
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
               <Grid item>
                 <TextField fullWidth label={'Senha'}></TextField>
               </Grid>
-              <Grid item>
+              <Grid item textAlign={'initial'}>
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Manter-me logado" />
               </Grid>
               <Grid item>
