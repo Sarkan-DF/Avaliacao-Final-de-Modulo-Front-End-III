@@ -3,17 +3,46 @@ import {
   Checkbox,
   Container,
   Divider,
+  FormControl,
   FormControlLabel,
   Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   // Paper,
   TextField,
   Typography
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import GridCenterStyled from '../components/GridCenterStyled';
 import PaperStyled from '../components/PaperStyled';
+import { useNavigate } from 'react-router-dom';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Login: React.FC = () => {
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const [user, setUser] = useState<string>('');
+  const [saveUser, setSaveUser] = useState<string>('');
+
+  const [password, setPassword] = useState<string>('');
+  const [savePassword, setSavePassword] = useState<string>('');
+
+  const navigate = useNavigate();
+
+  const goRegister = () => {
+    navigate('/cadastro');
+  };
+
+  const saveStado = () => {
+    setSaveUser(user);
+    setSavePassword(password);
+  };
+
+  console.log(saveUser);
+  console.log(savePassword);
+
   return (
     <>
       <Grid container>
@@ -25,21 +54,59 @@ const Login: React.FC = () => {
                 <Divider />
               </Grid>
               <Grid item paddingBottom={'10px'} paddingTop={'10px'}>
-                <TextField fullWidth label={'Usuario'}></TextField>
+                <TextField
+                  type="text"
+                  fullWidth
+                  label={'Usuario'}
+                  onChange={event => setUser(event.target.value)}
+                ></TextField>
               </Grid>
+              {/* <Grid item>
+                <TextField
+                  type="password"
+                  fullWidth
+                  label={'Senha'}
+                  onChange={event => setPassword(event.target.value)}
+                ></TextField>
+              </Grid> */}
               <Grid item>
-                <TextField fullWidth label={'Senha'}></TextField>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    onChange={event => setPassword(event.target.value)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                </FormControl>
               </Grid>
+
               <Grid item textAlign={'initial'}>
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Manter-me logado" />
               </Grid>
               <Grid item>
-                <Button fullWidth variant="contained" size="large">
+                <Button fullWidth variant="contained" size="large" onClick={saveStado}>
                   Logar
                 </Button>
               </Grid>
               <Grid item paddingTop={'10px'} textAlign={'center'}>
-                <Typography>Ainda não tem cadastro? Clique aqui!</Typography>
+                <Typography>
+                  Ainda não tem cadastro?
+                  <Button variant="text" color="primary" onClick={goRegister}>
+                    Clique aqui!
+                  </Button>
+                </Typography>
               </Grid>
             </PaperStyled>
           </Container>
