@@ -8,18 +8,13 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
-import routes from '../routes/routes';
-import { useNavigate } from 'react-router-dom';
-
 const settings = ['Logout'];
 
 function ResponsiveAppBar() {
-  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -30,9 +25,8 @@ function ResponsiveAppBar() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (url: string) => {
+  const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    navigate(url);
   };
 
   const handleCloseUserMenu = () => {
@@ -44,6 +38,7 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <NoteAltIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+
           <Typography
             variant="h6"
             noWrap
@@ -58,7 +53,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none'
             }}
           >
-            Home
+            Recados
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -72,36 +67,13 @@ function ResponsiveAppBar() {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              {routes.map(page => (
-                <MenuItem key={page.url} onClick={() => handleCloseNavMenu(page.url)}>
-                  <Typography textAlign="center">{page.label}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
           <NoteAltIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
             component="a"
+            href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -113,19 +85,9 @@ function ResponsiveAppBar() {
               textDecoration: 'none'
             }}
           >
-            Home
+            Recados
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {routes.map(page => (
-              <Button
-                key={page.url}
-                onClick={() => handleCloseNavMenu(page.url)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page.label}
-              </Button>
-            ))}
-          </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

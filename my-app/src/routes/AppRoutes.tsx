@@ -4,7 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Cadastro from '../pages/Cadastro';
 import Login from '../pages/Login';
 import Home from '../pages/Home';
-import Recados from '../pages/Recados';
+import Recados from '../pages/ListaRecados';
+import InserirRecados from '../pages/InserirRecados';
 
 const ComponetName: React.FC = () => {
   return (
@@ -14,7 +15,8 @@ const ComponetName: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/recados" element={<Recados />} />
+          <Route path="/lista-recados" element={<Recados />} />
+          <Route path="/inserir-recados" element={<InserirRecados />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -3,14 +3,13 @@ import {
   Checkbox,
   Container,
   Divider,
+  FilledInput,
   FormControl,
   FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
-  // Paper,
   TextField,
   Typography
 } from '@mui/material';
@@ -61,21 +60,12 @@ const Login: React.FC = () => {
                   onChange={event => setUser(event.target.value)}
                 ></TextField>
               </Grid>
-              {/* <Grid item>
-                <TextField
-                  type="password"
-                  fullWidth
-                  label={'Senha'}
-                  onChange={event => setPassword(event.target.value)}
-                ></TextField>
-              </Grid> */}
               <Grid item>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
+                <FormControl fullWidth sx={{}} variant="filled">
+                  <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
+                  <FilledInput
+                    id="filled-adornment-password"
                     type={showPassword ? 'text' : 'password'}
-                    onChange={event => setPassword(event.target.value)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
@@ -87,7 +77,6 @@ const Login: React.FC = () => {
                         </IconButton>
                       </InputAdornment>
                     }
-                    label="Password"
                   />
                 </FormControl>
               </Grid>
