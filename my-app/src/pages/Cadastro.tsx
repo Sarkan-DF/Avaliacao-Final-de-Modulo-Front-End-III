@@ -8,7 +8,6 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
   TextField,
   Typography
 } from '@mui/material';
@@ -17,20 +16,39 @@ import GridCenterStyled from '../components/GridCenterStyled';
 import PaperStyled from '../components/PaperStyled';
 import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAppDispatch } from '../store/hooks';
+import { addUserPassword } from '../store/modules/userPasswordSlice';
+import UserPasswordTypes from '../types/UserPasswordTypes';
 
 const Cadastro: React.FC = () => {
+  const dispath = useAppDispatch();
+
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const [user, setUser] = useState<string>('');
-  const [saveUser, setSaveUser] = useState<string>('');
-
-  const [password, setPassword] = useState<string>('');
-  const [savePassword, setSavePassword] = useState<string>('');
+  const [userMessage, setUserMessage] = useState<string>('');
+  const [passwordMessage, setPasswordMessage] = useState<string>('');
+  const [repeatPasswordMessage, setRepeatPasswordMessage] = useState<string>('');
 
   const navigate = useNavigate();
 
+  const handleClear = () => {
+    setUserMessage('');
+    setPasswordMessage('');
+    setRepeatPasswordMessage('');
+  };
+
   const goLogin = () => {
     navigate('/login');
+  };
+
+  const saveUserPassword = () => {
+    if (passwordMessage === repeatPasswordMessage) {
+      const userPasswords: UserPasswordTypes = { userMessage, passwordMessage };
+      dispath(addUserPassword(userPasswords));
+      handleClear();
+    } else {
+      alert('A senhas devem ser iguais!');
+    }
   };
 
   return (
@@ -44,12 +62,20 @@ const Cadastro: React.FC = () => {
                 <Divider />
               </Grid>
               <Grid item paddingBottom={'10px'} paddingTop={'10px'}>
-                <TextField type="text" fullWidth label={'Usuario'}></TextField>
+                <TextField
+                  value={userMessage}
+                  type="text"
+                  onChange={event => setUserMessage(event.target.value)}
+                  fullWidth
+                  label={'Usuario'}
+                ></TextField>
               </Grid>
               <Grid item>
                 <FormControl fullWidth sx={{}} variant="filled">
                   <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
                   <FilledInput
+                    value={passwordMessage}
+                    onChange={event => setPasswordMessage(event.target.value)}
                     id="filled-adornment-password"
                     type={showPassword ? 'text' : 'password'}
                     endAdornment={
@@ -70,6 +96,8 @@ const Cadastro: React.FC = () => {
                 <FormControl fullWidth sx={{}} variant="filled">
                   <InputLabel htmlFor="filled-adornment-password">Repetir Password</InputLabel>
                   <FilledInput
+                    value={repeatPasswordMessage}
+                    onChange={event => setRepeatPasswordMessage(event.target.value)}
                     id="filled-adornment-password"
                     type={showPassword ? 'text' : 'password'}
                     endAdornment={
@@ -87,7 +115,7 @@ const Cadastro: React.FC = () => {
                 </FormControl>
               </Grid>
               <Grid item>
-                <Button fullWidth variant="contained" size="large">
+                <Button fullWidth variant="contained" size="large" onClick={saveUserPassword}>
                   Cadastrar
                 </Button>
               </Grid>

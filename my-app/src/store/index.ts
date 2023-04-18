@@ -1,15 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './modules/counterSlice';
-import messageReducer from './modules/messageSlice';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+import rootReducer from './modules/rootReducer';
+
+const persistConfig = {
+  key: 'list-message',
+  storage
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    message: messageReducer
-  }
+  reducer: persistedReducer
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

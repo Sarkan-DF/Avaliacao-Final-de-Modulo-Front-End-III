@@ -23,24 +23,25 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [user, setUser] = useState<string>('');
-  const [saveUser, setSaveUser] = useState<string>('');
-
   const [password, setPassword] = useState<string>('');
-  const [savePassword, setSavePassword] = useState<string>('');
 
   const navigate = useNavigate();
+
+  const handleClear = () => {
+    setUser('');
+    setPassword('');
+  };
 
   const goRegister = () => {
     navigate('/cadastro');
   };
 
-  const saveStado = () => {
-    setSaveUser(user);
-    setSavePassword(password);
+  const checkLogin = () => {
+    console.log(user);
+    console.log(password);
+    handleClear();
+    //comparar estado local com de user e password com estado global;
   };
-
-  console.log(saveUser);
-  console.log(savePassword);
 
   return (
     <>
@@ -54,6 +55,7 @@ const Login: React.FC = () => {
               </Grid>
               <Grid item paddingBottom={'10px'} paddingTop={'10px'}>
                 <TextField
+                  value={user}
                   type="text"
                   fullWidth
                   label={'Usuario'}
@@ -64,6 +66,8 @@ const Login: React.FC = () => {
                 <FormControl fullWidth sx={{}} variant="filled">
                   <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
                   <FilledInput
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
                     id="filled-adornment-password"
                     type={showPassword ? 'text' : 'password'}
                     endAdornment={
@@ -85,7 +89,7 @@ const Login: React.FC = () => {
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Manter-me logado" />
               </Grid>
               <Grid item>
-                <Button fullWidth variant="contained" size="large" onClick={saveStado}>
+                <Button fullWidth variant="contained" size="large" onClick={checkLogin}>
                   Logar
                 </Button>
               </Grid>
