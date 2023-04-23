@@ -12,7 +12,7 @@ const ListaRecados: React.FC = () => {
           <Container>
             <Paper style={{ borderRadius: '20px', paddingTop: '10px', paddingBottom: '10px' }} elevation={10}>
               <Container>
-                <Typography variant="h3">Lista Recados</Typography>
+                <Typography variant="h3">Lista Recadossssss</Typography>
                 <Divider />
 
                 <ListMessage />
