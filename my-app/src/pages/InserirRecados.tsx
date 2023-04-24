@@ -4,6 +4,7 @@ import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import { useAppDispatch } from '../store/hooks';
 import MessageType from '../types/MessageType';
 import { addMessage } from '../store/modules/messageSlice';
+import generateID from '../utils/generateID';
 
 const InserirRecados: React.FC = () => {
   const dispath = useAppDispatch();
@@ -17,10 +18,13 @@ const InserirRecados: React.FC = () => {
   };
 
   const handleAdd = () => {
-    const message: MessageType = { nameMessage, descriptionMessage };
-
-    dispath(addMessage(message));
-    handleClear();
+    const message: MessageType = { nameMessage, descriptionMessage, id: String(generateID()) };
+    if (message.nameMessage === undefined) {
+      message.nameMessage = '';
+    } else {
+      dispath(addMessage(message));
+      handleClear();
+    }
   };
 
   return (

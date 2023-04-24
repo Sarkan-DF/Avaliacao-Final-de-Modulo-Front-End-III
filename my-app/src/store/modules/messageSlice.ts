@@ -1,26 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import MessageType from '../../types/MessageType';
+import { RootState } from '..';
 
-interface MessageState {
-  items: MessageType[];
-}
+const adapter = createEntityAdapter<MessageType>({
+  selectId: item => item.id
+});
 
-const initialState: MessageState = {
-  items: []
-};
+export const { selectAll, selectById, selectTotal } = adapter.getSelectors((state: RootState) => state.message);
 
 const messageSlice = createSlice({
-  initialState,
   name: 'message',
+  initialState: adapter.getInitialState(),
   reducers: {
-    addMessage: (state, action: PayloadAction<MessageType>) => {
-      state.items.push(action.payload);
-    },
-    renoveMessage: (state, action: PayloadAction<number>) => {
-      state.items.splice(action.payload, 1);
-    }
+    addMessage: adapter.addOne,
+    removeMessage: adapter.removeOne,
+    updateMessage: adapter.updateOne
   }
 });
 
-export const { addMessage, renoveMessage } = messageSlice.actions;
+export const { addMessage, removeMessage, updateMessage } = messageSlice.actions;
 export default messageSlice.reducer;
