@@ -2,8 +2,12 @@ import { Button, Container, Divider, Grid, Paper, Typography } from '@mui/materi
 import React from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import ListMessage from '../components/ListMessage';
+import { useAppSelector } from '../store/hooks';
+import { selectAll } from '../store/modules/messageSlice';
 
 const ListaRecados: React.FC = () => {
+  const messagesRedux = useAppSelector(selectAll);
+
   return (
     <React.Fragment>
       <Grid container>
@@ -12,10 +16,10 @@ const ListaRecados: React.FC = () => {
           <Container>
             <Paper style={{ borderRadius: '20px', paddingTop: '10px', paddingBottom: '10px' }} elevation={10}>
               <Container>
-                <Typography variant="h3">Lista Recadossssss</Typography>
+                <Typography variant="h3">Lista Recados</Typography>
                 <Divider />
 
-                <ListMessage />
+                <ListMessage data={messagesRedux} />
 
                 <Grid item xs={12}>
                   <Button fullWidth variant="contained">

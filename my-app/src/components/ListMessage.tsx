@@ -2,32 +2,78 @@ import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-// import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-// import Typography from '@mui/material/Typography';
-// import { useAppSelector } from '../store/hooks';
-// import { selectAll } from '../store/modules/messageSlice';
+import MessageType from '../types/MessageType';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../store/hooks';
+import { useEffect, useMemo } from 'react';
+import { IconButton, ListItemText, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { removeMessage } from '../store/modules/messageSlice';
 
-export default function ListMessage() {
+interface ListMessageProps {
+  data: MessageType[];
+}
+const ListMessage: React.FC<ListMessageProps> = ({ data }) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [dataLocal, setDataLocal] = React.useState<MessageType[]>([]);
+
+  useEffect(() => {
+    setDataLocal([...data]);
+  }, [data]);
+
+  const handleDelete = (itemDelete: MessageType) => {
+    dispatch(removeMessage(itemDelete.nameMessage));
+  };
+
+  const handleEdit = (itemEdit: MessageType) => {
+    navigate(`/editar-recados/${itemEdit.id}`);
+  };
+
+  const listMemo = useMemo(() => {
+    return dataLocal.map((item, index) => {
+      return (
+        <React.Fragment key={index}>
+          <ListItem
+            alignItems="flex-start"
+            secondaryAction={
+              <>
+                <IconButton onClick={() => handleEdit(item)} edge="end" aria-label="delete">
+                  <EditIcon />
+                </IconButton>
+
+                <IconButton onClick={() => handleDelete(item)} edge="end" aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </>
+            }
+          >
+            <ListItemAvatar>
+              <Avatar>{item.nameMessage[0]}</Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={item.nameMessage}
+              secondary={
+                <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+                  {item.descriptionMessage}
+                </Typography>
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" component="li" />
+        </React.Fragment>
+      );
+    });
+  }, [dataLocal]);
+
   return (
-    <List>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
-        {/* <ListItemText
-          primary="Descrição Recado!"
-          secondary={
-            <React.Fragment>
-              <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-                Detalhamento Recado!
-              </Typography>
-            </React.Fragment>
-          }
-        /> */}
-      </ListItem>
-      <Divider variant="inset" component="li" />
+    <List sx={{ bgcolor: 'background.paper' }}>
+      {dataLocal.length ? listMemo : <Typography variant="body1">Nenhum contato cadastrado.</Typography>}
     </List>
   );
-}
+};
+
+export default ListMessage;
