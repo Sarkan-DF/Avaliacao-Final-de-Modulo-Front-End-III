@@ -12,14 +12,14 @@ const GlobalStyled: React.FC = () => {
             margin: '0px',
             background: `url(${backgroud})`,
             backgroundRepeat: 'no-repeat',
-            backgroundSize: 'center',
+            backgroundSize: 'center'
             // display: 'flex',
             // flexDirection: 'column',
             // justifyContent: 'center',
             // alignItems: 'center'
           },
 
-          a: { textDecoration: 'none'}
+          a: { textDecoration: 'none' }
         }}
       />
     </>
