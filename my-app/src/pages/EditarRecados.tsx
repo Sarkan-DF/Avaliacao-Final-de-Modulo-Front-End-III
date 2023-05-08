@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { selectById, updateMessage } from '../store/modules/messageSlice';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
+import { Height, Style } from '@mui/icons-material';
 
 const EditarRecados: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ const EditarRecados: React.FC = () => {
 
   useEffect(() => {
     if (descriptionMessage.length) {
-      if (descriptionMessage.length < 11) {
+      if (descriptionMessage.length < 3) {
         setDescriptionMessageError(true);
       } else {
         setDescriptionMessageError(false);
@@ -99,7 +100,7 @@ const EditarRecados: React.FC = () => {
                       label={'Recado'}
                     ></TextField>
                   </Grid>
-                  <Grid item padding={'2px'} xs={12} sm={7}>
+                  <Grid item padding={'2px'} xs={12} sm={6}>
                     <TextField
                       error={descriptionMessageError}
                       helperText={
@@ -112,12 +113,12 @@ const EditarRecados: React.FC = () => {
                     ></TextField>
                   </Grid>
                   <Grid item padding={'2px'} xs={12} sm={1}>
-                    <Button onClick={handleEdit} variant="contained">
+                    <Button style={{ height: '100%' }} onClick={handleEdit} variant="contained">
                       Salvar
                     </Button>
                   </Grid>
                   <Grid item padding={'2px'} xs={12} sm={1}>
-                    <Button onClick={handleClear} variant="contained">
+                    <Button style={{ height: '100%' }} onClick={handleClear} variant="contained">
                       Limpar
                     </Button>
                   </Grid>

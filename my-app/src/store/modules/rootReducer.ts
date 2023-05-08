@@ -2,10 +2,12 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import message from './messageSlice';
 import counter from './counterSlice';
-import userPassword from './userPasswordSlice';
+import registerLogin from './registerLoginSlice';
+import checkLogin from './requestLoginSlice';
 
 export default combineReducers({
   message,
   counter,
-  userPassword
+  registerLogin,
+  checkLogin
 });

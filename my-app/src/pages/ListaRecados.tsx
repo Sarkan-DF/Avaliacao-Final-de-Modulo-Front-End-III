@@ -4,9 +4,15 @@ import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import ListMessage from '../components/ListMessage';
 import { useAppSelector } from '../store/hooks';
 import { selectAll } from '../store/modules/messageSlice';
+import { useNavigate } from 'react-router-dom';
 
 const ListaRecados: React.FC = () => {
   const messagesRedux = useAppSelector(selectAll);
+  const navigate = useNavigate();
+
+  const goUrl = () => {
+    navigate('/inserir-recados');
+  };
 
   return (
     <React.Fragment>
@@ -22,7 +28,7 @@ const ListaRecados: React.FC = () => {
                 <ListMessage data={messagesRedux} />
 
                 <Grid item xs={12}>
-                  <Button fullWidth variant="contained">
+                  <Button fullWidth variant="contained" onClick={goUrl}>
                     + Inserir novo Recado
                   </Button>
                 </Grid>

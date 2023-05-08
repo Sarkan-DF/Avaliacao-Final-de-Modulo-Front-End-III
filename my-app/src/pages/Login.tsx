@@ -2,6 +2,11 @@ import {
   Button,
   Checkbox,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   FilledInput,
   FormControl,
@@ -18,14 +23,28 @@ import GridCenterStyled from '../components/GridCenterStyled';
 import PaperStyled from '../components/PaperStyled';
 import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectAll } from '../store/modules/registerLoginSlice';
+import { login } from '../store/modules/requestLoginSlice';
+import RegisterLoginTypes from '../types/RegisterLoginTypes';
+import generateID from '../utils/generateID';
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState(false);
 
+  const [open, setOpen] = React.useState(false);
+
   const [user, setUser] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const listLoginsRedux = useAppSelector(selectAll);
+  const dispath = useAppDispatch();
+
   const navigate = useNavigate();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleClear = () => {
     setUser('');
@@ -37,8 +56,14 @@ const Login: React.FC = () => {
   };
 
   const checkLogin = () => {
-    console.log(user);
-    console.log(password);
+    const logged = listLoginsRedux.find(item => item.userMessage === user && item.passwordMessage === password);
+    const logins: RegisterLoginTypes = { userMessage: user, passwordMessage: password, id: String(generateID()) };
+    if (logged) {
+      dispath(login(logins));
+      navigate('/lista-recados');
+    } else {
+      setOpen(true);
+    }
     handleClear();
     //comparar estado local com de user e password com estado global;
   };
@@ -105,6 +130,30 @@ const Login: React.FC = () => {
           </Container>
         </GridCenterStyled>
       </Grid>
+
+      {/* dialog */}
+
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Alerta</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">Usuário ou senha estão incorretos!</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            {/* <Button onClick={handleClose}>Disagree</Button> */}
+            <Button variant="contained" color="primary" onClick={handleClose} autoFocus>
+              Fechar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      {/* dialog */}
     </>
   );
 };

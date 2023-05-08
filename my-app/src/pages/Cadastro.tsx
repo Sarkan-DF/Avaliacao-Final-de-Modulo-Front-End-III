@@ -1,6 +1,11 @@
 import {
   Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   FilledInput,
   FormControl,
@@ -17,19 +22,26 @@ import PaperStyled from '../components/PaperStyled';
 import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAppDispatch } from '../store/hooks';
-import { addUserPassword } from '../store/modules/userPasswordSlice';
-import UserPasswordTypes from '../types/UserPasswordTypes';
+import { addLogin } from '../store/modules/registerLoginSlice';
+import UserPasswordTypes from '../types/RegisterLoginTypes';
+import generateID from '../utils/generateID';
 
 const Cadastro: React.FC = () => {
   const dispath = useAppDispatch();
 
   const [showPassword, setShowPassword] = React.useState(false);
 
+  const [open, setOpen] = React.useState(false);
+
   const [userMessage, setUserMessage] = useState<string>('');
   const [passwordMessage, setPasswordMessage] = useState<string>('');
   const [repeatPasswordMessage, setRepeatPasswordMessage] = useState<string>('');
 
   const navigate = useNavigate();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleClear = () => {
     setUserMessage('');
@@ -43,11 +55,13 @@ const Cadastro: React.FC = () => {
 
   const saveUserPassword = () => {
     if (passwordMessage === repeatPasswordMessage) {
-      const userPasswords: UserPasswordTypes = { userMessage, passwordMessage };
-      dispath(addUserPassword(userPasswords));
+      const userPasswords: UserPasswordTypes = { userMessage, passwordMessage, id: String(generateID()) };
+      dispath(addLogin(userPasswords));
       handleClear();
     } else {
-      alert('A senhas devem ser iguais!');
+      // alert('As senhas devem ser iguais!');
+      // usar dialoger
+      setOpen(true);
     }
   };
 
@@ -131,6 +145,29 @@ const Cadastro: React.FC = () => {
           </Container>
         </GridCenterStyled>
       </Grid>
+
+      {/* dialog */}
+
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Alerta</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">As senhas devem ser idênticas!</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="primary" onClick={handleClose} autoFocus>
+              Fechar
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      {/* dialog */}
     </>
   );
 };

@@ -26,7 +26,7 @@ const ListMessage: React.FC<ListMessageProps> = ({ data }) => {
   }, [data]);
 
   const handleDelete = (itemDelete: MessageType) => {
-    dispatch(removeMessage(itemDelete.nameMessage));
+    dispatch(removeMessage(itemDelete.id));
   };
 
   const handleEdit = (itemEdit: MessageType) => {
